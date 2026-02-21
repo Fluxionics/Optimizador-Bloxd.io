@@ -1,0 +1,21 @@
+{
+  "info": {
+    "id": "brave-portable",
+    "guid": "{8AEE810B-2E26-4D32-B54F-64313E55C4AC}",
+    "name": "Brave Portable",
+    "version": "1.85.118",
+    "release": "98",
+    "date": "2026/01/04 23:02:12",
+    "publisher": "CrazyMax",
+    "url": "https://github.com/portapps/brave-portable",
+    "portapps_version": "3.17.0"
+  },
+  "win_version": {
+    "Major": 10,
+    "Minor": 0,
+    "Build": 26100
+  },
+  "root_path": "C:\\Users\\User\\Documents\\Bloxd.io\\browser",
+  "app_path": "C:\\Users\\User\\Documents\\Bloxd.io\\browser\\app",
+  "data_path": "C:\\Users\\User\\Documents\\Bloxd.io\\browser\\data"
+}
