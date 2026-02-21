@@ -1,0 +1,13 @@
+FLUXIONICS v2.0 - ESTRUCTURA DE CARPETAS
+==========================================
+
+lanzador.bat          <- EJECUTAR ESTE (doble clic)
+index.html            <- Panel de control (se abre solo)
+
+/browser/             <- Poner brave.exe aqui (portable)
+/config/              <- Configuraciones de optimizacion
+/functions/           <- Scripts internos (no tocar)
+/logs/                <- Registros de sesiones
+/data/                <- Datos del sistema (auto)
+
+==========================================
