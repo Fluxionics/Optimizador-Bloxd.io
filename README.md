@@ -17,7 +17,7 @@
 [![Open Source](https://img.shields.io/badge/Open%20Source-%E2%9D%A4-00ff88?style=flat-square)](https://github.com)
 [![Windows](https://img.shields.io/badge/Windows-7%20%7C%208%20%7C%2010%20%7C%2011-00cc66?style=flat-square&logo=windows&logoColor=white)](https://fluxionics.github.io)
 [![Version](https://img.shields.io/badge/Version-3.0-00ff88?style=flat-square)](https://fluxionics.github.io)
-[![Brave](https://img.shields.io/badge/Navegador-Brave%20Portable-FF5733?style=flat-square&logo=brave&logoColor=white)](https://fluxionics.github.io)
+[![Brave](https://img.shields.io/badge/Navegador-Brave%20Portable-FF5733?style=flat-square&logo=brave&logoColor=white)](https://portapps.io/app/brave-portable/)
 [![Status](https://img.shields.io/badge/Status-Activo-00ff88?style=flat-square)](https://fluxionics.github.io)
 
 🌐 **[fluxionics.github.io](https://fluxionics.github.io)**
