@@ -1,0 +1,24 @@
+# Carpetas generadas automáticamente
+config/
+logs/
+saves/
+
+# Brave Portable (no se sube por tamaño y licencia)
+browser/
+
+# Archivos temporales de la extensión
+extension/fluxconfig.js
+extension/preload.html
+extension/setconfig.js
+extension/writeconfig.ps1
+
+# Archivos de sistema Windows
+Thumbs.db
+desktop.ini
+*.tmp
+
+# Archivos de build
+*.exe
+*.sed
+FluxionicsLauncher.cs
+FLUXIONICS.exe.manifest
