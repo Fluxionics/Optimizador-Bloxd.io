@@ -5,7 +5,7 @@
 ## ¿Cómo contribuir?
 
 ### Reportar un bug
-1. Ve a [Issues](https://github.com/fluxionics/fluxionics/issues)
+1. Ve a [Issues](https://github.com/fluxionics/Optimizador-Bloxd.io/issues)
 2. Click en **New Issue**
 3. Describe el problema con:
    - Tu versión de Windows
