@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "FLUXIONICS Optimizer",
+  "version": "3.0",
+  "description": "Aplica FPS y pixeles automaticamente en Bloxd.io",
+  "permissions": ["storage", "scripting", "tabs"],
+  "host_permissions": ["https://bloxd.io/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://bloxd.io/*"],
+      "js": ["fluxconfig.js", "content.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ]
+}
