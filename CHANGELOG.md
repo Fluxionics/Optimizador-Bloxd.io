@@ -1,6 +1,6 @@
 # Changelog
 
-## [3.0.1] - Pre-release
+## [3.0.1] - 2025
 
 ### Nuevo
 - **Auto-updater** — detecta nueva versión en GitHub y avisa en el menú
