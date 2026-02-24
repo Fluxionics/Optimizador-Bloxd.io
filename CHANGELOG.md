@@ -1,5 +1,21 @@
 # Changelog
 
+## [3.0.1] - Pre-release
+
+### Nuevo
+- **Auto-updater** — detecta nueva versión en GitHub y avisa en el menú
+- **Modo Competitivo** — optimización extra automática al iniciar partida
+- **Multi-idioma** — inglés y español automático según el Windows del usuario
+- **Discord RPC** — notificación al iniciar sesión de juego
+- **Instalador automático** — `instalar.bat` configura todo desde cero
+- **Benchmark** — mide rendimiento del sistema y guarda historial
+- Versión visible en menú junto al estado de actualizaciones
+
+### Mejorado
+- Timer resolution de 1ms via NtSetTimerResolution (menos input lag)
+- CPU affinity asigna todos los núcleos a Brave automáticamente
+- Menú con opción `[U]` para ver estado de updates y `[B]` para benchmark
+
 ## [3.0.0] - 2025
 
 ### Nuevo
@@ -15,8 +31,8 @@
 - Archivo `desbloquear.bat` para omitir SmartScreen
 
 ### Mejorado
-- Optimización más agresiva en Win10/11 (más servicios pausados)
-- NetworkThrottlingIndex desactivado para mejor latencia online
+- Optimización más agresiva en Win10/11
+- NetworkThrottlingIndex desactivado
 - Prioridad de GPU al máximo via registro
 - Restauración automática al cerrar el juego
 
