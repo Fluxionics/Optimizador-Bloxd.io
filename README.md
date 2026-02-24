@@ -9,16 +9,16 @@
 ╚═╝     ╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝ ╚═════╝╚══════╝
 ```
 
-# FLUXIONICS v3.0
+# FLUXIONICS v3.0.1
 
 **Optimizador de rendimiento para Bloxd.io — Open Source**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-00cc66?style=flat-square)](LICENSE)
 [![Open Source](https://img.shields.io/badge/Open%20Source-%E2%9D%A4-00ff88?style=flat-square)](https://github.com)
 [![Windows](https://img.shields.io/badge/Windows-7%20%7C%208%20%7C%2010%20%7C%2011-00cc66?style=flat-square&logo=windows&logoColor=white)](https://fluxionics.github.io)
-[![Version](https://img.shields.io/badge/Version-3.0-00ff88?style=flat-square)](https://fluxionics.github.io)
-[![Brave](https://img.shields.io/badge/Navegador-Brave%20Portable-FF5733?style=flat-square&logo=brave&logoColor=white)](https://portapps.io/app/brave-portable/)
-[![Status](https://img.shields.io/badge/Status-Activo-00ff88?style=flat-square)](https://fluxionics.github.io)
+[![Version](https://img.shields.io/badge/Version-3.0.1-00ff88?style=flat-square)](https://github.com/Fluxionics/Optimizador-Bloxd.io/releases/latest)
+[![Release](https://img.shields.io/badge/Release-Estable-00cc66?style=flat-square)](https://github.com/Fluxionics/Optimizador-Bloxd.io/releases/latest)
+[![Brave](https://img.shields.io/badge/Navegador-Brave-FF5733?style=flat-square&logo=brave&logoColor=white)](https://brave.com)
 
 🌐 **[fluxionics.github.io](https://fluxionics.github.io)**
 
@@ -38,7 +38,7 @@ Todo el código es visible en este repositorio — sin ejecutables ocultos, sin 
 
 ## ⚠️ Advertencia de SmartScreen
 
-Si Windows muestra *"Editor desconocido"* al abrir `lanzador.bat`, es normal para cualquier `.bat` descargado de internet. Tienes tres opciones:
+Si Windows muestra *"Editor desconocido"* al abrir `lanzador.bat`, es normal para cualquier `.bat` descargado de internet.
 
 **Opción rápida:** Clic en `Más información` → `Ejecutar de todas formas`
 
@@ -58,10 +58,10 @@ Si Windows muestra *"Editor desconocido"* al abrir `lanzador.bat`, es normal par
 ## Instalación
 
 ```
-1. Descarga o clona este repositorio
-2. Descarga Brave Portable → coloca brave.exe en browser\
-3. Ejecuta lanzador.bat
-4. Elige [1] JUGAR
+1. Descarga el ZIP desde la sección Releases
+2. Extrae la carpeta
+3. Ejecuta instalar.bat  ← descarga e instala Brave automaticamente
+4. Abre lanzador.bat → [1] JUGAR
 ```
 
 ---
@@ -70,19 +70,21 @@ Si Windows muestra *"Editor desconocido"* al abrir `lanzador.bat`, es normal par
 
 ```
 ==========================================================
-  FLUXIONICS v3.0  |  TuNombre
+  FLUXIONICS v3.0.1  |  TuNombre
 ==========================================================
   Sesiones: 5  |  Tiempo: 120 min  |  FPS: 60
 
-  [1]  JUGAR          Bloxd.io optimizado
-  [2]  MIS JUEGOS     Otros juegos y URLs
-  [3]  CONFIGURACION  FPS, calidad, opciones
-  [4]  ESTADO         Info del sistema
-  [5]  LOG            Historial de sesiones
-  [6]  PROGRESO       Guardar / Restaurar cuenta
-  [7]  PERFIL         Nombre, color del CMD
-  [8]  REINICIAR      Borrar datos
+  [1]  JUGAR           Bloxd.io optimizado
+  [2]  MIS JUEGOS      Otros juegos y URLs
+  [3]  CONFIGURACION   FPS, calidad, opciones
+  [4]  ESTADO          Info del sistema
+  [5]  LOG             Historial de sesiones
+  [6]  PROGRESO        Guardar / Restaurar cuenta
+  [7]  PERFIL          Nombre, color del CMD
+  [8]  REINICIAR       Borrar datos
   [9]  SALIR
+  [B]  BENCHMARK       Medir rendimiento del sistema
+  [U]  UPDATE          v3.0.1 | Al dia ✓
 ==========================================================
 ```
 
@@ -92,8 +94,8 @@ Si Windows muestra *"Editor desconocido"* al abrir `lanzador.bat`, es normal par
 
 Desde el menú `[3] CONFIGURACION`:
 
-| Opción | Descripción |
-|--------|-------------|
+| Opción | Valores |
+|--------|---------|
 | **Límite de FPS** | 60 / 140 / 195 / Sin límite / Personalizado |
 | **Calidad pixel** | 1px / 2px / 4px / 8px / 16px |
 
@@ -101,18 +103,31 @@ Los valores se aplican automáticamente via extensión de Brave al abrir el jueg
 
 ---
 
-## ¿Qué hace la optimización?
+## Detección automática de PC
 
-Al elegir JUGAR se ejecutan estos pasos:
+FLUXIONICS detecta el nivel de hardware y aplica configuración óptima automáticamente:
+
+| Nivel | RAM libre | Descripción |
+|-------|-----------|-------------|
+| **BAJO** | < 600 MB | Optimización extrema, mata 30+ procesos, tweaks de memoria |
+| **NORMAL** | 600 MB – 2 GB | Balance rendimiento/estabilidad |
+| **ALTO** | 2 – 6 GB | Alto rendimiento, zero-copy activado |
+| **ULTRA** | 6 GB+ | Sin límites, GPU rasterization |
+
+---
+
+## ¿Qué hace la optimización?
 
 | Paso | Acción | Compatible |
 |------|--------|-----------|
-| Detectar Windows | Lee Build Number del registro | Win 7-11 |
-| Modo RAM | Asigna memoria JS según RAM libre | Todos |
-| Liberar RAM | Termina procesos no esenciales | Todos |
-| Pausar servicios | WSearch, SysMain, DiagTrack, etc. | Win 10/11 |
+| Detectar Windows | Lee Build Number del registro | Win 7–11 |
+| Detectar nivel PC | RAM + núcleos CPU + modelo GPU | Todos |
+| Liberar RAM | Termina 30+ procesos no esenciales | Todos |
+| Pausar servicios | WSearch, SysMain, DiagTrack, XblAuth… | Win 10/11 |
 | Optimizar sistema | Plan energía, prioridad CPU, sin animaciones | Todos |
+| Red sin throttling | NetworkThrottlingIndex desactivado | Win 10/11 |
 | Anti-mineros | Escanea 8+ procesos maliciosos | Todos |
+| Modo Competitivo | Timer 1ms, CPU affinity máximo | Win 8+ |
 | Lanzar juego | Brave + extensión FLUXIONICS | Todos |
 
 > Todo se **restaura automáticamente** al cerrar el juego.
@@ -121,18 +136,18 @@ Al elegir JUGAR se ejecutan estos pasos:
 
 ## Extensión de Brave
 
-La carpeta `extension/` contiene una extensión de Brave que:
+La carpeta `extension/` contiene una extensión que:
 
 - Se inyecta **únicamente** en `https://bloxd.io`
 - Limita FPS via `requestAnimationFrame`
-- Aplica pixel ratio al canvas del juego
-- No accede a ninguna otra página
-- No envía datos a ningún servidor
+- Fuerza pixel ratio y calidad WebGL según configuración
+- En PCs débiles activa `antialias: false` y `powerPreference: low-power`
+- No accede a ninguna otra página ni envía datos a ningún servidor
 
 ```
 extension/
 ├── manifest.json    ← permisos (solo bloxd.io)
-├── fluxconfig.js    ← tus valores de FPS y pixel
+├── fluxconfig.js    ← tus valores de FPS y pixel (generado al jugar)
 └── content.js       ← inyector (léelo tú mismo)
 ```
 
@@ -143,19 +158,20 @@ extension/
 ```
 Fluxionics/
 ├── lanzador.bat          ← Menú principal (todo el código aquí)
+├── instalar.bat          ← Instalador automático (descarga Brave)
 ├── desbloquear.bat       ← Quita advertencia SmartScreen
+├── index.html            ← Página web del proyecto
 ├── README.md
+├── CHANGELOG.md
 ├── LICENSE               ← MIT
 ├── CONTRIBUTING.md
 ├── SECURITY.md
 ├── .gitignore
-│
 ├── extension/
 │   ├── manifest.json
 │   ├── content.js
 │   └── fluxconfig.js     ← generado al jugar
-│
-├── browser/              ← NO incluido (poner brave.exe aquí)
+├── browser/              ← NO incluido (instalar.bat lo configura)
 ├── config/               ← NO incluido (generado automático)
 ├── logs/                 ← NO incluido (generado automático)
 └── saves/                ← NO incluido (generado automático)
@@ -165,12 +181,12 @@ Fluxionics/
 
 ## Compatibilidad
 
-| Windows | Soporte | Servicios pausados |
-|---------|---------|-------------------|
-| Windows 7 | ✅ Básico | ❌ |
-| Windows 8 / 8.1 | ✅ Bueno | ❌ |
-| Windows 10 | ✅ Completo | ✅ |
-| Windows 11 | ✅ Completo | ✅ |
+| Windows | Soporte | Servicios pausados | Modo Competitivo |
+|---------|---------|-------------------|-----------------|
+| Windows 7 | ✅ Básico | ❌ | ❌ |
+| Windows 8 / 8.1 | ✅ Bueno | ❌ | ✅ |
+| Windows 10 | ✅ Completo | ✅ | ✅ |
+| Windows 11 | ✅ Completo | ✅ | ✅ |
 
 ---
 
@@ -184,6 +200,12 @@ Fluxionics/
 
 ---
 
+## Changelog
+
+Ver [CHANGELOG.md](CHANGELOG.md) para el historial completo.
+
+---
+
 ## Licencia
 
 MIT — libre para usar, modificar y distribuir.  
@@ -193,7 +215,7 @@ Ver [LICENSE](LICENSE) para detalles completos.
 
 <div align="center">
 
-**FLUXIONICS v3.0** · Open Source · MIT License  
+**FLUXIONICS v3.0.1** · Release estable · Open Source · MIT License  
 Desarrollado por Guillermo Rafael  
 🌐 [fluxionics.github.io](https://fluxionics.github.io)
 
