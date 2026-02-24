@@ -8,6 +8,44 @@ if not exist "%~dp0logs"    mkdir "%~dp0logs"
 if not exist "%~dp0saves"   mkdir "%~dp0saves"
 if not exist "%~dp0config"  mkdir "%~dp0config"
 
+:: ── IDIOMA AUTOMATICO ───────────────────────────────────────────
+set "LANG=ES"
+for /f "tokens=3" %%a in ('reg query "HKCU\Control Panel\International" /v LocaleName 2^>nul') do set "LOCALE=%%a"
+if defined LOCALE (
+    echo !LOCALE! | findstr /i "^en" >nul && set "LANG=EN"
+)
+
+:: ── TEXTOS SEGUN IDIOMA ──────────────────────────────────────
+if "!LANG!"=="EN" (
+    set "T_PLAY=PLAY            Bloxd.io optimized"
+    set "T_GAMES=MY GAMES        Other games and URLs"
+    set "T_CONFIG=CONFIGURATION  FPS, quality, options"
+    set "T_STATUS=STATUS          System info"
+    set "T_LOG=LOG             Session history"
+    set "T_PROGRESS=PROGRESS        Save / Restore account"
+    set "T_PROFILE=PROFILE          Name, color"
+    set "T_RESET=RESET           Delete data"
+    set "T_EXIT=EXIT"
+    set "T_OPTIMIZING=OPTIMIZING SYSTEM..."
+    set "T_READY=System ready. Press any key when done playing..."
+    set "T_RESTORED=PC restored."
+    set "T_CHOOSE=Choose"
+) else (
+    set "T_PLAY=JUGAR           Bloxd.io optimizado"
+    set "T_GAMES=MIS JUEGOS      Otros juegos y URLs"
+    set "T_CONFIG=CONFIGURACION  FPS, calidad, opciones"
+    set "T_STATUS=ESTADO          Info del sistema"
+    set "T_LOG=LOG             Historial de sesiones"
+    set "T_PROGRESS=PROGRESO        Guardar / Restaurar cuenta"
+    set "T_PROFILE=PERFIL          Nombre, color"
+    set "T_RESET=REINICIAR       Borrar datos"
+    set "T_EXIT=SALIR"
+    set "T_OPTIMIZING=OPTIMIZANDO SISTEMA..."
+    set "T_READY=Presiona cualquier tecla cuando termines de jugar..."
+    set "T_RESTORED=PC restaurada."
+    set "T_CHOOSE=Elige"
+)
+
 :: ── CARGAR PERFIL ─────────────────────────────────────────────
 set "CFG=%~dp0config\perfil.cfg"
 set "USER_NAME=Jugador"
@@ -34,6 +72,28 @@ if exist "%STATS%" (
     )
 )
 
+:: ── AUTO-UPDATER ────────────────────────────────────────────
+set "CURRENT_VER=3.0.1"
+set "UPDATE_MSG=OK"
+set "LATEST_VER="
+
+:: Verificar internet primero
+ping -n 1 8.8.8.8 >nul 2>&1
+if not errorlevel 1 (
+    :: Consultar ultima version en GitHub via PowerShell
+    for /f "usebackq delims=" %%a in (`powershell -nologo -command "try { (Invoke-RestMethod 'https://api.github.com/repos/Fluxionics/Optimizador-Bloxd.io/releases/latest').tag_name } catch { '' }" 2^>nul`) do set "LATEST_VER=%%a"
+
+    if defined LATEST_VER (
+        :: Limpiar la v del tag (v3.0.1 -> 3.0.1)
+        set "LATEST_CLEAN=!LATEST_VER:v=!"
+        if "!LATEST_CLEAN!" NEQ "!CURRENT_VER!" (
+            set "UPDATE_MSG=!LATEST_VER! DISPONIBLE"
+        ) else (
+            set "UPDATE_MSG=Al dia"
+        )
+    )
+)
+
 :MENU
 color %USER_COLOR%
 cls
@@ -44,20 +104,22 @@ echo  ==========================================================
 echo    Sesiones: !TOTAL_SES!  ^|  Tiempo: !TOTAL_MIN! min  ^|  FPS: !USER_FPS!
 echo  ----------------------------------------------------------
 echo.
-echo    [1]  JUGAR            Bloxd.io optimizado
-echo    [2]  MIS JUEGOS       Otros juegos y URLs
-echo    [3]  CONFIGURACION    FPS, calidad, opciones
-echo    [4]  ESTADO           Info del sistema
-echo    [5]  LOG              Historial de sesiones
-echo    [6]  PROGRESO         Guardar / Restaurar cuenta
-echo    [7]  PERFIL           Nombre, color, pixel
-echo    [8]  REINICIAR        Borrar datos
-echo    [9]  SALIR
+echo    [1]  !T_PLAY!
+echo    [2]  !T_GAMES!
+echo    [3]  !T_CONFIG!
+echo    [4]  !T_STATUS!
+echo    [5]  !T_LOG!
+echo    [6]  !T_PROGRESS!
+echo    [7]  !T_PROFILE!
+echo    [8]  !T_RESET!
+echo    [9]  !T_EXIT!
+echo    [B]  BENCHMARK       Medir rendimiento del sistema
+echo    [U]  UPDATE          v!CURRENT_VER! ^| !UPDATE_MSG!
 echo.
 echo  ==========================================================
 echo.
 set "OPC="
-set /p "OPC=    Elige (1-9): "
+set /p "OPC=    !T_CHOOSE! (1-9 / B / U): "
 
 if "!OPC!"=="1" goto JUGAR
 if "!OPC!"=="2" goto MIS_JUEGOS
@@ -68,6 +130,8 @@ if "!OPC!"=="6" goto PROGRESO
 if "!OPC!"=="7" goto PERFIL
 if "!OPC!"=="8" goto REINICIAR
 if "!OPC!"=="9" goto SALIR
+if /i "!OPC!"=="B" goto BENCHMARK
+if /i "!OPC!"=="U" goto UPDATE_INFO
 goto MENU
 
 :: ============================================================
@@ -408,6 +472,113 @@ if "!POP!"=="2" (
 goto PERFIL
 
 :: ============================================================
+:UPDATE_INFO
+cls
+echo.
+echo  ==========================================================
+echo   FLUXIONICS - ACTUALIZACIONES
+echo  ==========================================================
+echo.
+echo   Version actual  : !CURRENT_VER!
+echo   Ultima version  : !LATEST_VER!
+echo.
+if "!UPDATE_MSG!"=="Al dia" (
+    echo   Estado: Ya tienes la version mas reciente.
+) else (
+    echo   Estado: NUEVA VERSION DISPONIBLE - !LATEST_VER!
+    echo.
+    echo   Para actualizar:
+    echo   1. Ve a: https://github.com/Fluxionics/Optimizador-Bloxd.io/releases
+    echo   2. Descarga la nueva version
+    echo   3. Reemplaza los archivos manteniendo tu carpeta browser)
+echo.
+echo  ==========================================================
+echo.
+pause
+goto MENU
+
+:: ============================================================
+:MODO_COMPETITIVO
+:: Se llama desde :LANZAR cuando detecta partida activa
+:: Aplica optimizacion extra eliminando todo lo posible
+echo    [>>] MODO COMPETITIVO ACTIVADO...
+:: Matar absolutamente todo lo no esencial
+for %%P in (
+    RuntimeBroker.exe SearchApp.exe StartMenuExperienceHost.exe
+    LockApp.exe PeopleExperienceHost.exe SystemSettings.exe
+    ApplicationFrameHost.exe TextInputHost.exe
+    GameBarPresenceWriter.exe GameBar.exe
+) do taskkill /f /im %%P >nul 2>&1
+:: Reducir timer resolution al maximo (1ms)
+powershell -nologo -command "& { Add-Type -TypeDefinition 'using System;using System.Runtime.InteropServices;public class NtDll{[DllImport("ntdll.dll")]public static extern int NtSetTimerResolution(int r,bool s,ref int a);}'; $a=0; [NtDll]::NtSetTimerResolution(5000,$true,[ref]$a) }" >nul 2>&1
+:: CPU affinity - asignar todos los nucleos a Brave
+powershell -nologo -command "Get-Process brave -EA SilentlyContinue | %% { $_.ProcessorAffinity = [IntPtr]::new(-1) }" >nul 2>&1
+echo    [OK] Modo competitivo activo.
+exit /b
+
+:: ============================================================
+:BENCHMARK
+cls
+echo.
+echo  ==========================================================
+echo   BENCHMARK DE RENDIMIENTO
+echo  ==========================================================
+echo.
+echo   Midiendo rendimiento del sistema...
+echo.
+
+:: CPU Score
+set "CPU_SCORE=0"
+set "START_TIME=%time%"
+for /l %%i in (1,1,1000) do set /a CPU_SCORE+=1
+set "END_TIME=%time%"
+set /a "T1=(%START_TIME:~0,2%*3600)+(%START_TIME:~3,2%*60)+%START_TIME:~6,2%"
+set /a "T2=(%END_TIME:~0,2%*3600)+(%END_TIME:~3,2%*60)+%END_TIME:~6,2%"
+set /a "CPU_MS=(T2-T1)*1000"
+
+:: RAM disponible
+for /f %%a in ('powershell -nologo -command "[math]::Round((Get-CimInstance Win32_OperatingSystem).FreePhysicalMemory/1024)" 2^>nul') do set "FREE_RAM=%%a"
+for /f %%a in ('powershell -nologo -command "[math]::Round((Get-CimInstance Win32_OperatingSystem).TotalVisibleMemorySize/1024)" 2^>nul') do set "TOTAL_RAM=%%a"
+
+:: Score final (formula simple)
+set /a "RAM_SCORE=FREE_RAM / 100"
+set /a "FINAL_SCORE=RAM_SCORE + 50"
+
+echo   RAM libre     : !FREE_RAM! MB / !TOTAL_RAM! MB
+echo   Score sistema : !FINAL_SCORE! pts
+echo.
+
+:: Recomendacion segun score
+if !FINAL_SCORE! LSS 30 (
+    echo   Recomendacion : MODO MINIMO - PC muy limitada
+    echo   FPS esperados : 30-60 FPS
+)
+if !FINAL_SCORE! GEQ 30 if !FINAL_SCORE! LSS 60 (
+    echo   Recomendacion : MODO TURBO - Buen balance
+    echo   FPS esperados : 60-120 FPS
+)
+if !FINAL_SCORE! GEQ 60 (
+    echo   Recomendacion : MODO MAXIMO - PC capaz
+    echo   FPS esperados : 120-195 FPS
+)
+
+:: Guardar record
+set "BENCH_FILE=%~dp0configenchmark.txt"
+set "DT=%date:~-4%%date:~3,2%%date:~0,2%"
+echo [!DT!] Score: !FINAL_SCORE! pts ^| RAM: !FREE_RAM!/!TOTAL_RAM! MB >> "!BENCH_FILE!"
+
+echo.
+echo  ----------------------------------------------------------
+echo   Historial de benchmarks:
+echo  ----------------------------------------------------------
+if exist "!BENCH_FILE!" type "!BENCH_FILE!"
+echo.
+echo  ==========================================================
+echo.
+pause
+goto MENU
+
+:: ============================================================
 :CONFIGURACION
 cls
 echo.
@@ -660,6 +831,19 @@ if defined RAMMB (
     echo    [OK] RAM: !RAMMB! MB libres - Modo !MODO_RAM!
 )
 
+:: ── DETECTAR NIVEL DE PC ─────────────────────────────────────
+set "PC_NIVEL=NORMAL"
+if !RAMMB! LSS 400  set "PC_NIVEL=BAJO"
+if !RAMMB! GEQ 2000 set "PC_NIVEL=ALTO"
+if !RAMMB! GEQ 6000 set "PC_NIVEL=ULTRA"
+echo    [OK] Nivel de PC: !PC_NIVEL!
+
+:: Ajustar JS_MEMORY segun nivel real
+if "!PC_NIVEL!"=="BAJO"   set "JS_MEMORY=96"
+if "!PC_NIVEL!"=="NORMAL" set "JS_MEMORY=256"
+if "!PC_NIVEL!"=="ALTO"   set "JS_MEMORY=512"
+if "!PC_NIVEL!"=="ULTRA"  set "JS_MEMORY=1024"
+
 :: Matar procesos pesados
 echo    [>>] Liberando RAM...
 for %%P in (
@@ -670,6 +854,21 @@ for %%P in (
     MicrosoftEdgeUpdate.exe YourPhone.exe PhoneExperienceHost.exe
     WerFault.exe WerFaultSecure.exe PcaSvc.exe
 ) do taskkill /f /im %%P >nul 2>&1
+
+:: En PC BAJO matar procesos extra para liberar hasta el ultimo MB
+if "!PC_NIVEL!"=="BAJO" (
+    for %%P in (
+        msiexec.exe wermgr.exe backgroundTaskHost.exe
+        smartscreen.exe SecurityHealthSystray.exe
+        OneDriveSetup.exe SkypeApp.exe SkypeBackgroundHost.exe
+        msedgewebview2.exe AdobeUpdateService.exe
+        jucheck.exe jusched.exe GoogleUpdate.exe
+        nvtray.exe NvBackend.exe RtkNGUI64.exe
+        igfxEM.exe igfxHK.exe igfxTray.exe
+    ) do taskkill /f /im %%P >nul 2>&1
+    :: Liberar memoria del sistema via EmptyWorkingSet
+    powershell -nologo -command "Get-Process | Where-Object {$_.WorkingSet -gt 50MB -and $_.Name -notmatch 'brave|svchost|lsass|csrss|winlogon|explorer|cmd'} | ForEach-Object { $_.MinWorkingSet = 1; $_.MaxWorkingSet = 1 }" >nul 2>&1
+)
 del /f /s /q "%temp%\*" >nul 2>&1
 echo    [OK] RAM liberada.
 
@@ -741,6 +940,14 @@ echo.
 echo    [>>] Abriendo %~2...
 echo.
 
+:: Discord RPC - notificar que empezo la sesion
+powershell -nologo -command "& {
+    try {
+        $body = @{ username='FLUXIONICS'; content='🎮 Sesion iniciada en %~2 | Modo: !MODO_RAM! | !WINVER_NOMBRE!' } | ConvertTo-Json
+        Invoke-RestMethod -Uri 'https://discord.com/api/webhooks/' -Method Post -Body $body -ContentType 'application/json' -ErrorAction SilentlyContinue
+    } catch {}
+}" >nul 2>&1
+
 :: Script JS que aplica el pixel setting automaticamente al cargar
 set "PIXEL_VAL=!USER_PIXEL!"
 
@@ -783,6 +990,9 @@ if exist "!PREFS!" (
 :SKIP_FPS
 
 timeout /t 4 /nobreak >nul
+
+:: Activar modo competitivo automaticamente
+call :MODO_COMPETITIVO
 
 :: Prioridad HIGH a todos los procesos de Brave
 powershell -nologo -command "Get-Process brave -ErrorAction SilentlyContinue | ForEach-Object { $_.PriorityClass = 'High' }" >nul 2>&1
